@@ -1,8 +1,51 @@
+const axios = require("axios");
+var figlet = require("figlet");
+var chalk = require("chalk");
+var moment = require("moment");
+
 require("dotenv").config();
-var keys = require("./keys.js");
+var keys = require("./key");
 
-var spotify = new Spotify(keys.spotify);
+var command = process.argv[2];
+var userInput = process.argv[3];
 
+// create the command concert-this
+if (command === "concert-this") {
+	figlet(userInput, function(err, data) {
+		if (err) {
+			console.log("Something went wrong...");
+			console.dir(err);
+			return;
+		}
+		console.log(chalk.green(data));
+	});
+
+	var url = `https://rest.bandsintown.com/artists/${userInput}/events?app_id=codingbootcamp`;
+	axios.get(url).then(function(response) {
+		var data = response.data;
+		data.forEach(function(item) {
+			//item.venue.name
+			//item.venue.city
+			//item.venue.country
+			console.log(
+				chalk.blue("\n---------------------------------------------------\n")
+			);
+			console.log(chalk.green("Venue name: ", chalk.yellow(item.venue.name)));
+			console.log(chalk.green("Venue place: ", chalk.yellow(item.venue.city)));
+			console.log(
+				chalk.green("Venue country: ", chalk.yellow(item.venue.country))
+			);
+			console.log(
+				chalk.green(
+					"Venue date: ",
+					chalk.yellow(moment(item.datetime).format("MM/DD/YYYY"))
+				)
+			);
+		});
+	});
+} else {
+	console.log("Unknown command");
+}
 // --------------------------------------------------------------------------------------------------------------------------------------------------------------------
 // create the command concert-this
 // This will search the Bands in Town Artist Events API ("https://rest.bandsintown.com/artists/" + artist + "/events?app_id=codingbootcamp")
