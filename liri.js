@@ -9,7 +9,16 @@ var keys = require("./key");
 var command = process.argv[2];
 var userInput = process.argv[3];
 
+// --------------------------------------------------------------------------------------------------------------------------------------------------------------------
 // create the command concert-this
+// This will search the Bands in Town Artist Events API ("https://rest.bandsintown.com/artists/" + artist + "/events?app_id=codingbootcamp")
+//for an artist and render the following information about each event to the terminal:
+
+//Name of the venue
+//Venue location
+//Date of the Event (use moment to format this as "MM/DD/YYYY")
+
+// --------------------------------------------------------------------------------------------------------------------------------------------------------------------
 if (command === "concert-this") {
 	figlet(userInput, function(err, data) {
 		if (err) {
@@ -24,9 +33,6 @@ if (command === "concert-this") {
 	axios.get(url).then(function(response) {
 		var data = response.data;
 		data.forEach(function(item) {
-			//item.venue.name
-			//item.venue.city
-			//item.venue.country
 			console.log(
 				chalk.blue("\n---------------------------------------------------\n")
 			);
@@ -46,16 +52,7 @@ if (command === "concert-this") {
 } else {
 	console.log("Unknown command");
 }
-// --------------------------------------------------------------------------------------------------------------------------------------------------------------------
-// create the command concert-this
-// This will search the Bands in Town Artist Events API ("https://rest.bandsintown.com/artists/" + artist + "/events?app_id=codingbootcamp")
-//for an artist and render the following information about each event to the terminal:
 
-//Name of the venue
-//Venue location
-//Date of the Event (use moment to format this as "MM/DD/YYYY")
-
-// --------------------------------------------------------------------------------------------------------------------------------------------------------------------
 //create command spotify-this-song '<song name here>'
 
 /*
