@@ -2,6 +2,7 @@ const axios = require("axios");
 var figlet = require("figlet");
 var chalk = require("chalk");
 var moment = require("moment");
+var Spotify = require("node-spotify-api");
 
 require("dotenv").config();
 var keys = require("./key");
@@ -49,8 +50,6 @@ if (command === "concert-this") {
 			);
 		});
 	});
-} else {
-	console.log("Unknown command");
 }
 
 //create command spotify-this-song '<song name here>'
@@ -83,6 +82,56 @@ Copy these values down somewhere, you'll need them to use the Spotify API and th
 
 */
 
+var spotify = new Spotify({
+	id: "17757cd0e9044045831bcaf4a5d9edfd",
+	secret: "cff8909974384d9ab0036af6f5cbced6"
+});
+var urlCheck;
+if (userInput === undefined) {
+	urlCheck = "Ace of Base The Sign";
+} else {
+	urlCheck = userInput;
+}
+if (command === "spotify-this-song") {
+	spotify.search({ type: "track", query: urlCheck }, function(err, data) {
+		if (err) {
+			return console.log("Error occurred: " + err);
+		}
+		figlet(chalk.green(data.tracks.items[0].artists[0].name), function(
+			err,
+			data
+		) {
+			if (err) {
+				console.log("Something went wrong...");
+				console.dir(err);
+				return;
+			}
+			console.log(chalk.green(data));
+		});
+		//song name
+		//album name
+		//preview link
+		//"The Sign" by Ace of Base
+		// console.log(data);
+
+		console.log(
+			chalk.green("Song title: "),
+			chalk.yellow(data.tracks.items[0].name)
+		);
+		console.log(
+			chalk.green("Artist/Band name: "),
+			chalk.yellow(data.tracks.items[0].artists[0].name)
+		);
+		console.log(
+			chalk.green("Album name: "),
+			chalk.yellow(data.tracks.items[0].album.name)
+		);
+		console.log(
+			chalk.green("Preview URL: "),
+			chalk.yellow(data.tracks.items[3].preview_url)
+		);
+	});
+}
 // --------------------------------------------------------------------------------------------------------------------------------------------------------------------
 
 //create command movie-this '<movie name here>'
