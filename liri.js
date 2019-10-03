@@ -30,7 +30,7 @@ if (command === "concert-this") {
     console.log(chalk.green(data));
   });
 
-  var url = `https://rest.bandsintown.com/artists/${userInput}/events?app_id=codingbootcamp`;
+  var url = `https://rest.bandsintown.com/artists/${userInput}/events?app_id=${keys.BIT.API_KEY}`;
   axios.get(url).then(function(response) {
     var data = response.data;
     data.forEach(function(item) {
@@ -83,8 +83,8 @@ Copy these values down somewhere, you'll need them to use the Spotify API and th
 */
 
 var spotify = new Spotify({
-  id: "17757cd0e9044045831bcaf4a5d9edfd",
-  secret: "cff8909974384d9ab0036af6f5cbced6"
+  id: keys.spotify.id,
+  secret: keys.spotify.secret
 });
 var urlCheck;
 if (userInput === undefined) {
@@ -167,7 +167,7 @@ if (command === "movie-this") {
     }
     console.log(chalk.green(data));
   });
-  var movieURL = `http://www.omdbapi.com/?apikey=trilogy&t=${userInput}&limit=3&type=movie`;
+  var movieURL = `http://www.omdbapi.com/?apikey=${keys.OMDB.API_KEY}&t=${userInput}&limit=3&type=movie`;
   axios.get(movieURL).then(function(response) {
     console.log(
       chalk.green("Movie Title: "),
