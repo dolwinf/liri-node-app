@@ -44,17 +44,3 @@ On the command line, type:
 [Spotify API](https://developer.spotify.com/documentation/web-api/)
 
 <hr></hr>
-
-<h4>Below is a thorough, but not comprehensive, step-by-step process of how I got the app running in terms of code</h4>
-
-- Navigate to root of project. Initialize package.json by running `npm init -y`
-
-- Creation of .gitignore file
-
-- Creation of keys.js
-
-  - Spotify keys for export
-
-- Creation of .env file to store Spotify API keys
-
-- Creation of random.txt with default result for do-what-it-says command
