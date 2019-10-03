@@ -3,6 +3,7 @@ var figlet = require("figlet");
 var chalk = require("chalk");
 var moment = require("moment");
 var Spotify = require("node-spotify-api");
+var fs = require("fs");
 
 require("dotenv").config();
 var keys = require("./key");
@@ -206,3 +207,11 @@ It should run spotify-this-song for "I Want it That Way," as follows the text in
 Edit the text in random.txt to test out the feature for movie-this and concert-this.
 
 */
+
+if (command === "do-what-it-says") {
+  fs.readFile("random.txt", "utf-8", function(err, data) {
+    var index = data.indexOf(" ");
+    console.log(data.substring(0, index));
+    console.log(data.substring(index + 1));
+  });
+}
