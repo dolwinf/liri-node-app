@@ -13,7 +13,7 @@ Author: Dolwin Fernandes
 <hr>
 
 <h2> Project overview</h2>
-LIRI is a command line Node app that takes in user input and returns data from the following APIs: Bandsintown, Spotify and OMDb.
+LIRI is a command line Node app that takes in user input and returns data from the following APIs: Bandsintown, Spotify and OMDB.
 <hr>
 
 <h2> How it works </h2>
@@ -25,7 +25,7 @@ On the command line, type:
 
 - `node liri.js movie-this "movie name here"` to return movie information from OMDb.
 
-- `node liri.js do-what-it-says` to return information stored in random.txt
+- `node liri.js do-what-it-says` to return information based on any of the above commands stored in random.txt
 
 <hr>
 
@@ -33,9 +33,9 @@ On the command line, type:
 
 [Node.js](https://nodejs.org/en/)
 
-[chalk](https://www.npmjs.com/package/chalk)
+[Chalk](https://www.npmjs.com/package/chalk)
 
-[figlet](https://www.npmjs.com/package/figlet)
+[Figlet](https://www.npmjs.com/package/figlet)
 
 [Bandsintown API](http://www.artists.bandsintown.com/bandsintown-api)
 
