@@ -211,7 +211,7 @@ Edit the text in random.txt to test out the feature for movie-this and concert-t
 if (command === "do-what-it-says") {
   fs.readFile("random.txt", "utf-8", function(err, data) {
     var index = data.indexOf(" ");
-    console.log(data.substring(0, index));
-    console.log(data.substring(index + 1));
+    process.argv[2] = data.substring(0, index);
+    process.argv[3] = data.substring(index + 1);
   });
 }
