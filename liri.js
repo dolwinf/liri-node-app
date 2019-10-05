@@ -134,7 +134,7 @@ function spotifyThisSong() {
 	});
 }
 if (command === "spotify-this-song") {
-	spotifythissong();
+	spotifyThisSong();
 }
 // --------------------------------------------------------------------------------------------------------------------------------------------------------------------
 
@@ -218,16 +218,16 @@ if (command === "do-what-it-says") {
 	fs.readFile("random.txt", "utf-8", function(err, data) {
 		var index = data.indexOf(" ");
 		command = data.substring(0, index);
-		userInput = data.substring(index + 1);
-		urlCheck = data.substring(index + 1);
+
 		if (command === "spotify-this-song") {
+			urlCheck = data.substring(index + 1);
 			spotifyThisSong();
 		} else if (command === "movie-this") {
+			userInput = data.substring(index + 1);
 			movieThis();
 		} else if (command === "concert-this") {
+			userInput = data.substring(index + 1);
 			concertThis();
-		} else {
-			console.log("Damn!");
 		}
 	});
 }
