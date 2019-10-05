@@ -21,36 +21,41 @@ var userInput = process.argv[3];
 //Date of the Event (use moment to format this as "MM/DD/YYYY")
 
 // --------------------------------------------------------------------------------------------------------------------------------------------------------------------
-if (command === "concert-this") {
-  figlet(userInput, function(err, data) {
-    if (err) {
-      console.log("Something went wrong...");
-      console.dir(err);
-      return;
-    }
-    console.log(chalk.green(data));
-  });
 
-  var url = `https://rest.bandsintown.com/artists/${userInput}/events?app_id=${keys.BIT.API_KEY}`;
-  axios.get(url).then(function(response) {
-    var data = response.data;
-    data.forEach(function(item) {
-      console.log(
-        chalk.blue("\n---------------------------------------------------\n")
-      );
-      console.log(chalk.green("Venue name: ", chalk.yellow(item.venue.name)));
-      console.log(chalk.green("Venue place: ", chalk.yellow(item.venue.city)));
-      console.log(
-        chalk.green("Venue country: ", chalk.yellow(item.venue.country))
-      );
-      console.log(
-        chalk.green(
-          "Venue date: ",
-          chalk.yellow(moment(item.datetime).format("MM/DD/YYYY"))
-        )
-      );
-    });
-  });
+function concertThis() {
+	figlet(userInput, function(err, data) {
+		if (err) {
+			console.log("Something went wrong...");
+			console.dir(err);
+			return;
+		}
+		console.log(chalk.green(data));
+	});
+
+	var url = `https://rest.bandsintown.com/artists/${userInput}/events?app_id=${keys.BIT.API_KEY}`;
+	axios.get(url).then(function(response) {
+		var data = response.data;
+		data.forEach(function(item) {
+			console.log(
+				chalk.blue("\n---------------------------------------------------\n")
+			);
+			console.log(chalk.green("Venue name: ", chalk.yellow(item.venue.name)));
+			console.log(chalk.green("Venue place: ", chalk.yellow(item.venue.city)));
+			console.log(
+				chalk.green("Venue country: ", chalk.yellow(item.venue.country))
+			);
+			console.log(
+				chalk.green(
+					"Venue date: ",
+					chalk.yellow(moment(item.datetime).format("MM/DD/YYYY"))
+				)
+			);
+		});
+	});
+}
+
+if (command === "concert-this") {
+	concertThis();
 }
 
 //create command spotify-this-song '<song name here>'
@@ -84,54 +89,52 @@ Copy these values down somewhere, you'll need them to use the Spotify API and th
 */
 
 var spotify = new Spotify({
-  id: keys.spotify.id,
-  secret: keys.spotify.secret
+	id: keys.spotify.id,
+	secret: keys.spotify.secret
 });
 var urlCheck;
 if (userInput === undefined) {
-  urlCheck = "Ace of Base The Sign";
+	urlCheck = "Ace of Base The Sign";
 } else {
-  urlCheck = userInput;
+	urlCheck = userInput;
+}
+function spotifyThisSong() {
+	spotify.search({ type: "track", query: urlCheck }, function(err, data) {
+		if (err) {
+			return console.log("Error occurred: " + err);
+		}
+		figlet(chalk.green(data.tracks.items[0].artists[0].name), function(
+			err,
+			data
+		) {
+			if (err) {
+				console.log("Something went wrong...");
+				console.dir(err);
+				return;
+			}
+			console.log(chalk.green(data));
+		});
+
+		console.log(
+			chalk.green("Song title: "),
+			chalk.yellow(data.tracks.items[0].name)
+		);
+		console.log(
+			chalk.green("Artist/Band name: "),
+			chalk.yellow(data.tracks.items[0].artists[0].name)
+		);
+		console.log(
+			chalk.green("Album name: "),
+			chalk.yellow(data.tracks.items[0].album.name)
+		);
+		console.log(
+			chalk.green("Preview URL: "),
+			chalk.yellow(data.tracks.items[3].preview_url)
+		);
+	});
 }
 if (command === "spotify-this-song") {
-  spotify.search({ type: "track", query: urlCheck }, function(err, data) {
-    if (err) {
-      return console.log("Error occurred: " + err);
-    }
-    figlet(chalk.green(data.tracks.items[0].artists[0].name), function(
-      err,
-      data
-    ) {
-      if (err) {
-        console.log("Something went wrong...");
-        console.dir(err);
-        return;
-      }
-      console.log(chalk.green(data));
-    });
-    //song name
-    //album name
-    //preview link
-    //"The Sign" by Ace of Base
-    // console.log(data);
-
-    console.log(
-      chalk.green("Song title: "),
-      chalk.yellow(data.tracks.items[0].name)
-    );
-    console.log(
-      chalk.green("Artist/Band name: "),
-      chalk.yellow(data.tracks.items[0].artists[0].name)
-    );
-    console.log(
-      chalk.green("Album name: "),
-      chalk.yellow(data.tracks.items[0].album.name)
-    );
-    console.log(
-      chalk.green("Preview URL: "),
-      chalk.yellow(data.tracks.items[3].preview_url)
-    );
-  });
+	spotifythissong();
 }
 // --------------------------------------------------------------------------------------------------------------------------------------------------------------------
 
@@ -158,42 +161,45 @@ It's on Netflix!
 You'll use the axios package to retrieve data from the OMDB API. Like all of the in-class activities, the OMDB API requires an API key. You may use trilogy.
 
 */
+function movieThis() {
+	figlet(userInput, function(err, data) {
+		if (err) {
+			console.log("Something went wrong...");
+			console.dir(err);
+			return;
+		}
+		console.log(chalk.green(data));
+	});
+	var movieURL = `http://www.omdbapi.com/?apikey=${keys.OMDB.API_KEY}&t=${userInput}&limit=3&type=movie`;
+	axios.get(movieURL).then(function(response) {
+		console.log(
+			chalk.green("Movie Title: "),
+			chalk.yellow(response.data.Title)
+		);
+		console.log(chalk.green("Released: "), chalk.yellow(response.data.Year));
+		console.log(
+			chalk.green("IMDB rating: "),
+			chalk.yellow(response.data.imdbRating)
+		);
+		console.log(
+			chalk.green("Rotten Tomatoes rating: "),
+			chalk.yellow(response.data.Ratings[1].Value)
+		);
+		console.log(
+			chalk.green("Country of release: "),
+			chalk.yellow(response.data.Country)
+		);
+		console.log(
+			chalk.green("Language: "),
+			chalk.yellow(response.data.Language)
+		);
+		console.log(chalk.green("Plot: "), chalk.yellow(response.data.Plot));
+		console.log(chalk.green("Actors: "), chalk.yellow(response.data.Actors));
+	});
+}
 
 if (command === "movie-this") {
-  figlet(userInput, function(err, data) {
-    if (err) {
-      console.log("Something went wrong...");
-      console.dir(err);
-      return;
-    }
-    console.log(chalk.green(data));
-  });
-  var movieURL = `http://www.omdbapi.com/?apikey=${keys.OMDB.API_KEY}&t=${userInput}&limit=3&type=movie`;
-  axios.get(movieURL).then(function(response) {
-    console.log(
-      chalk.green("Movie Title: "),
-      chalk.yellow(response.data.Title)
-    );
-    console.log(chalk.green("Released: "), chalk.yellow(response.data.Year));
-    console.log(
-      chalk.green("IMDB rating: "),
-      chalk.yellow(response.data.imdbRating)
-    );
-    console.log(
-      chalk.green("Rotten Tomatoes rating: "),
-      chalk.yellow(response.data.Ratings[1].Value)
-    );
-    console.log(
-      chalk.green("Country of release: "),
-      chalk.yellow(response.data.Country)
-    );
-    console.log(
-      chalk.green("Language: "),
-      chalk.yellow(response.data.Language)
-    );
-    console.log(chalk.green("Plot: "), chalk.yellow(response.data.Plot));
-    console.log(chalk.green("Actors: "), chalk.yellow(response.data.Actors));
-  });
+	movieThis();
 }
 
 //create command do-what-it-says
@@ -209,9 +215,19 @@ Edit the text in random.txt to test out the feature for movie-this and concert-t
 */
 
 if (command === "do-what-it-says") {
-  fs.readFile("random.txt", "utf-8", function(err, data) {
-    var index = data.indexOf(" ");
-    process.argv[2] = data.substring(0, index);
-    process.argv[3] = data.substring(index + 1);
-  });
+	fs.readFile("random.txt", "utf-8", function(err, data) {
+		var index = data.indexOf(" ");
+		command = data.substring(0, index);
+		userInput = data.substring(index + 1);
+		urlCheck = data.substring(index + 1);
+		if (command === "spotify-this-song") {
+			spotifyThisSong();
+		} else if (command === "movie-this") {
+			movieThis();
+		} else if (command === "concert-this") {
+			concertThis();
+		} else {
+			console.log("Damn!");
+		}
+	});
 }
