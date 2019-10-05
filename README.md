@@ -8,7 +8,7 @@ Author: Dolwin Fernandes
 
 <h3> App demo </h3>
 
-![alt text](https://github.com/dolwinf "Liri Node App")
+![alt text](https://github.com/dolwinf/liri-node-app/blob/master/gifRecording.gif "Liri Node App")
 
 <hr>
 
